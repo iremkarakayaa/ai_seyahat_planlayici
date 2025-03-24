@@ -1,15 +1,50 @@
-import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
-import React, { useEffect } from 'react';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, ToastAndroid } from 'react-native';
+import React, { useEffect, useState } from 'react';
 import { useNavigation } from 'expo-router';
 import { useRouter } from 'expo-router';
+import { signInWithEmailAndPassword ,getAuth} from 'firebase/auth';
+import {auth} from './../../../configs/FirebaseConfig'
+import { useSafeAreaFrame } from 'react-native-safe-area-context';
+import { Ionicons } from '@expo/vector-icons';
+import CustomToast from './../../../components/CustomToast';  
 
 export default function SignIn() {
   const navigation = useNavigation();
   const router = useRouter();
 
+  const [email,setEmail]=useState();
+  const [password,setPassword]=useState();
+  const [secureText, setSecureText] = useState(true);
+  const [toastVisible, setToastVisible] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
+  
   useEffect(() => {
     navigation.setOptions({ headerShown: false });
   }, []);
+
+  const onSignIn = ()=>{
+     if(!email && !password){
+      setToastMessage('Lütfen e-posta ve şifre giriniz!');
+      setToastVisible(true);
+          return;
+        }
+    signInWithEmailAndPassword(auth,email,password)
+        .then((userCredential) => {
+          const user = userCredential.user;
+          console.log(user);
+        })
+      
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorMessage,errorCode);
+        if('auth/invalid-credential'){
+          setToastMessage('Yanlış e-posta veya şifre');
+          setToastVisible(true);
+        }
+      });
+  }
+
 
   return (
     <View style={styles.container}>
@@ -17,21 +52,50 @@ export default function SignIn() {
 
       <View style={styles.inputContainer}>
         <Text style={styles.label}>E-posta</Text>
-        <TextInput style={styles.input} placeholder='E-posta' placeholderTextColor='#aaa' />
+        <TextInput style={styles.input}
+         onChangeText={(text) => setEmail(text)} placeholder='E-posta' placeholderTextColor='#aaa' />
       </View>
 
-      <View style={styles.inputContainer}>
+      {/* <View style={styles.inputContainer}>
         <Text style={styles.label}>Parola</Text>
-        <TextInput style={styles.input} placeholder='Parola' placeholderTextColor='#aaa' secureTextEntry={true} />
+        <TextInput style={styles.input} onChangeText={(text) => setPassword(text)} placeholder='Parola' placeholderTextColor='#aaa' secureTextEntry={true} />
+      </View> */}
+        <View style={styles.inputContainer}>
+        <Text style={styles.label}>Parola</Text>
+        <View style={styles.passwordContainer}>
+          <TextInput
+            style={styles.input}
+            placeholder="Parola"
+            placeholderTextColor="#aaa"
+            secureTextEntry={secureText}
+            value={password}
+            onChangeText={(text) => setPassword(text)}
+          />
+          <TouchableOpacity onPress={() => setSecureText(!secureText)} style={styles.eyeIcon}>
+            <Ionicons 
+              name={secureText ? "eye-off" : "eye"} 
+              size={24} 
+              color="#aaa" 
+            />
+          </TouchableOpacity>
+        </View>
       </View>
-
-      <TouchableOpacity style={styles.button}>
+      
+      <TouchableOpacity 
+      onPress={onSignIn}
+      style={styles.button}>
         <Text style={styles.buttonText}>Giriş Yap</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity onPress={() => router.replace('auth/sign-up')} style={styles.signupButton}>
+      <CustomToast message={toastMessage} visible={toastVisible} onHide={() => setToastVisible(false)} />
+
+       {/* <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
+              <Ionicons name="arrow-back" size={28} color="black" />
+      </TouchableOpacity>  */}
+
+      {/* <TouchableOpacity onPress={() => router.replace('auth/sign-up')} style={styles.signupButton}>
         <Text style={styles.signupText}>Kayıt Ol</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </View>
   );
 }
@@ -104,5 +168,21 @@ const styles = StyleSheet.create({
     fontSize: 18,
     textAlign: 'center',
     fontFamily: 'poppins-bold', 
+  },
+  passwordContainer: {
+    width: '100%',
+    position: 'relative',
+  },
+  eyeIcon: {
+    position: 'absolute',
+    right: 10,
+    top: 18, 
+  },
+  backButton: {
+    position: 'absolute',
+    top: 40,  
+    left: 20, 
+    zIndex: 10, 
+    
   },
 });
