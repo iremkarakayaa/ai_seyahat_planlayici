@@ -82,8 +82,7 @@ export default function SignUp() {
   
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Yeni Hesap Oluştur</Text>
-
+     
       <View style={styles.inputContainer}>
         <Text style={styles.label}>İsim Soyisim</Text>
         <TextInput style={styles.input} placeholder='İsim Soyisim' 

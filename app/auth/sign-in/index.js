@@ -48,7 +48,9 @@ export default function SignIn() {
 
 
   return (
+    
     <View style={styles.container}>
+      
       <Text style={styles.title}>Giriş Yap</Text>
 
       <View style={styles.inputContainer}>

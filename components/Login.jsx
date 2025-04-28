@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
     width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 20,
+    padding: 15,
   },
   title: {
     fontSize: 32,
@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
     textAlign: 'left',
     margin: 30,
     paddingHorizontal: 15,
-    fontFamily: 'poppins',
+    fontFamily: 'poppins-regular',
   },
   button: {
     backgroundColor: '#FF6B00',
@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: '#fff',
     textAlign: 'center',
-    fontFamily: 'poppins-bold', 
+    fontFamily: 'poppins-regular', 
   },
   underline: {
     textDecorationLine: 'underline',
