@@ -28,3 +28,23 @@ export const SelectTravelesList = [
       people: '5 ile 10 Kişi',
     }
   ];
+  export const SelectBudgetOptions=[
+    {
+      id:1,
+      title:'Ucuz',
+      desc:'Fazla harcama yapmamaya dikkat et',
+      icon:'💵'
+    },
+    {
+      id:2,
+      title:'Orta Düzey',
+      desc:'Harcamayı ortalama düzeyde tut',
+      icon:'💰'
+    },
+    {
+      id:3,
+      title:'Lüks',
+      desc:'Ücret konusunda endişelenme',
+      icon:'💸'
+    }
+  ]

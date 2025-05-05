@@ -41,7 +41,7 @@ export default function StartNewTripCard() {
      </Text>
 
      <TouchableOpacity
-     onPress={()=>router.push('/create-trip/search-place')}
+     onPress={()=>router.push('/create-trip/select-budget')}
      style={{
         padding:10,
         backgroundColor:'#FF6B00',

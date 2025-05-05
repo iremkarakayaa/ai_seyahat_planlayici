@@ -5,7 +5,7 @@ import { Colors } from '../../constants/Colors';
 import CalendarPicker from "react-native-calendar-picker";
 import { Ionicons } from '@expo/vector-icons';
 export default function SelectDates() {
-  
+    const router=useRouter();
     const navigation=useNavigation();
     useEffect(()=>{
         navigation.setOptions({
@@ -16,7 +16,7 @@ export default function SelectDates() {
     })
   
     const onDateChange = (date) => {
-        
+    // router.push('/create-trip/select-budget')    
       };
     
     return (
